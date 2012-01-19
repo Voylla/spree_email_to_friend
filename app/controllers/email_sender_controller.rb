@@ -9,10 +9,6 @@ class EmailSenderController < Spree::BaseController
     end
   end
 
-  def use_captcha?
-    current_user.nil? || Spree::Captcha::Config[:use_captcha]
-  end
-
   private
     def mail_to_friend
       @mail_to_friend = MailToFriend.new(params[:mail_to_friend])
@@ -40,6 +36,10 @@ class EmailSenderController < Spree::BaseController
     #extract send message to make easier to override
     def send_message(object, mail_to_friend)
       ToFriendMailer.mail_to_friend(object,@mail_to_friend).deliver
+    end
+
+    def use_captcha?
+      current_user.nil? && Spree::Captcha::Config[:use_captcha]
     end
 
     def find_object
