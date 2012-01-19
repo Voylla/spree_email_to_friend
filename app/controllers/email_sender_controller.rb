@@ -9,13 +9,17 @@ class EmailSenderController < Spree::BaseController
     end
   end
 
+  def use_captcha?
+    current_user.nil? || Spree::Captcha::Config[:use_captcha]
+  end
+
   private
     def mail_to_friend
       @mail_to_friend = MailToFriend.new(params[:mail_to_friend])
       @mail_to_friend.host = request.env['HTTP_HOST']
       respond_to do |format|
         format.html do
-          captcha_passed = !Spree::Captcha::Config[:use_captcha] || verify_recaptcha(:private_key => Spree::Captcha::Config[:private_key])
+          captcha_passed = !use_captcha? || verify_recaptcha(:private_key => Spree::Captcha::Config[:private_key])
           if @mail_to_friend.valid? && captcha_passed
             flash[:notice] = I18n.t('email_to_friend.mail_sent_to', :email => @mail_to_friend.recipient_email).html_safe
             flash[:notice] << ActionController::Base.helpers.link_to(I18n.t('email_to_friend.send_to_other'), email_to_friend_path(@object.class.name.downcase, @object)).html_safe
