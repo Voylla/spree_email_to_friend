@@ -24,7 +24,7 @@
     <%= f.text_area(:message) %>
   </p>
   <% end %>
-  <% if use_captcha? %>
+  <% if EmailSenderController::use_captcha? %>
     <%= recaptcha_tags :public_key => Spree::Captcha::Config[:public_key], :display => {:theme => Spree::Captcha::Config[:theme]} %>
   <% end %>
   <p>
