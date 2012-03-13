@@ -14,7 +14,7 @@ class ToFriendMailer < ActionMailer::Base
     end
     default_url_options[:host] = mail.host
     opts[:subject] =  mail.subject
-    #opts[:reply_to] = mail.sender_email
+    opts[:reply_to] = mail.sender_email
 
     mail(opts)
   end
