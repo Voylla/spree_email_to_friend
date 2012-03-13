@@ -11,6 +11,6 @@ I think you would like this item:
 <%= mail.sender_name %>
 
 Click the link below to view the <%= product.name %> page.
-<%= product_url(product) %>
+<%= product_url(product, :only_path => false, :host=> "voylla.com") %>
 
-For more online shopping, visit <%= products_url %>
+For more online shopping, visit <%= products_url :only_path => false, :host=> "voylla.com" %>
